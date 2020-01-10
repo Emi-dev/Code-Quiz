@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
+        <title>Code Quiz</title>
+    </head>
+
+    <body>
+        <nav class="nav">
+            <a href="./highscores.html" class="nav-item nav-link mr-auto">View Highscores</a>
+            <a href="#" class="nav-item nav-link disabled">Time: <span id="timeLeft"></span></a>
+        </nav>
+
+        <header class="text-center">
+            <h1 id="quizHeader" class="mt-4"></h1>
+        </header>
+
+        <main class="container mt-4"> 
+            <div id="quizIntro">
+                <div class="mx-auto my-4 textDisp"> This is a code quiz application for JavaScript fundamentals that stores high scores
+                    so that the people who learn JavaScript can gauge thier progress and compared to thier peers. 
+                    Click on the "Start Quiz" button to begin!
+                </div>
+            
+                <div class="mx-auto text-center">
+                    <button id="startBtn" class="btn btn-lg">Start Quiz</button>
+                </div>
+            </div>
+
+            <div id="quizContent">
+                <div id="questionTitle" class="mx-auto my-4 text-center textDisp">
+                    <!-- quiz questions are created here -->
+                </div>
+
+                <div id="answerChoices" class="btn-group-vertical mx-auto text-center">
+                    <!-- answer choices (buttons) are created here -->
+                </div>
+            </div>
+
+            <div id="ansewerResult" class="mx-auto">
+                <!-- the user's answer result and next arrow are created here -->
+                <p class="float-left"></p>
+                <button id="nextBtn" class="btn btn-lg float-right">Next Question</button>
+            </div>
+        </main>
+
+        <script type="text/javascript" src="./assets/js/script.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    </body>
+</html>
