@@ -23,6 +23,8 @@ var currentIndex;
 var wrongCount;
 // time left
 var timeLeft;
+// variable to contain the ID value returned by setInterval()
+var timeInterval;
 
 // initialize the quizHeader (intro)
 quizHeader.textContent = "Coding Quiz Challenge!";
@@ -32,19 +34,19 @@ var questions = [
     // question 1
     {
       title: "Commonly used data types DO NOT include:",
-      choices: ["strings", "booleans", "alerts", "numbers"],
+      choices: ["booleans", "alerts", "strings", "numbers"],
       answer: "alerts"
     },
     //question 2
     {
       title: "The condition in an if / else statement is enclosed within ____.",
-      choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+      choices: ["parentheses", "quotes", "curly brackets", "square brackets"],
       answer: "parentheses"
     },
     //question 3
     {
         title: "What is the HTML tag under which one can write the JavaScript code?",
-        choices: ["<javascript>", "<scripted>", "<script>", "<js>"],
+        choices: ["<script>", "<javascript>", "<scripted>", "<js>"],
         answer: "<script>"
     },
     //question 4
@@ -62,7 +64,7 @@ var questions = [
     //question 6
     {
         title: "What will be logged in console? \nconsole.log(('b' + 'a' + + 'a' + 'a').toLowerCase());",
-        choices: ["banullaa", "baNaNaa", "baaa", "banana"],
+        choices: ["banullaa", "bananaa", "baaa", "banana"],
         answer: "banana"
     }
   ];
@@ -110,9 +112,12 @@ nextBtn.addEventListener("click", () => {
         remderQuestion(currentIndex);
         // create and render the answer choices for the new question
         renderChoices(currentIndex);
-    } else {
-        // start from here...
-        // stop the timer, calculate the score, show the user their score, get initials, and store in locasStorage
+    } else {    // when the quiz ends
+        // stop the timer
+        clearInterval(timeInterval);
+        // calculate and show the score
+        // get the user initials
+        // store in locasStorage
     }
 });
 
@@ -170,7 +175,7 @@ function startTimer() {
     // set the time to the number of questions * 15(seconds)
     timeLeft = questions.length * 15;
 
-    var timeInterval = setInterval(() => {
+    timeInterval = setInterval(() => {
         timeLeft--;
         timeLeftSpan.textContent = timeLeft;
         if (timeLeft === 0) {

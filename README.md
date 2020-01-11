@@ -17,7 +17,8 @@ The user is asked to enter his/her initial at the end and the initial and the sc
 
 The user is able to view the highestscore by clicking on the "Highestscore" link on the top left corner of the application.
 
-![Code Quiz](assets/images/code-quiz.png)
+![Code Quiz Intro Page](assets/images/code-quiz-intro.png)
+![Code Quiz Question Page](assets/images//code-quiz-question.png)
 
 ### Link
 [Click here to Take Javascript Code Quiz](https://emi-dev.github.io/Code-Quiz/)
