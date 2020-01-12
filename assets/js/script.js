@@ -118,6 +118,8 @@ submitBtn.addEventListener("click", () => {
     } else {
         // store the score in localStorage
         storeScore();
+        // redirect to highscore page
+        window.location.replace("./highscores.html");
     }
 });
 
@@ -220,8 +222,8 @@ function showTheEndPage() {
 // function to store the score in localStorage
 function storeScore() {
     var currentUserInitials = userInitials.value.toUpperCase();
-    // get the stores highscores array of objects from localStorage
-    // highScores is an array of objects. Each object in hiScores has initals & score properties.
+    // get the stored "highscores" array of objects from localStorage
+    // "highScores" is an array of objects. Each object in "highScores" has initals & score properties.
     var storedScores = JSON.parse(localStorage.getItem("highScores"));
     if (storedScores) {
         // get the current user's index in the stored (old) score data (highScores)
@@ -239,7 +241,7 @@ function storeScore() {
         storedScores = [];
         storedScores.push({initials: currentUserInitials, score: timeLeft});
     }
-    // re-store the storedScores array with updated score of the user
+    // store/re-store the storedScores array with the updated data into localStorage
     localStorage.setItem("highScores", JSON.stringify(storedScores));
 }
 
