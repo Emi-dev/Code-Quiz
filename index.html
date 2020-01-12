@@ -17,7 +17,7 @@
         </nav>
 
         <header class="text-center">
-            <h1 id="quizHeader" class="mt-4"></h1>
+            <h1 id="quizHeader" class="mt-4">Coding Quiz Challenge!</h1>
         </header>
 
         <main class="container mt-4"> 
@@ -42,11 +42,26 @@
                 </div>
             </div>
 
-            <div id="ansewerResult" class="mx-auto">
+            <div id="answerResult" class="mx-auto">
                 <!-- the user's answer result and next arrow are created here -->
-                <p class="float-left"></p>
+                <h4 id="resultText" class="float-left"></h4>
                 <button id="nextBtn" class="btn btn-lg float-right">Next Question</button>
             </div>
+
+            <div id="quizEnd" class="mx-auto">
+                <h1 class="my-4">All Done!</h1>
+                <h2 class="my-4">Your final score: <span id="userScore"></span></h2>
+                <div class="form-row align-items-center">
+                    <div class="col-auto form-inline">
+                        <label for="userInitials" id="initialslabel">Enter your initials: </label>
+                        <input type="text" maxlength="3" id="userInitials" class="col-auto form-control form-control-lg mx-2" placeholder="(e.g., EKC)">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" id="submitBtn" class="btn btn-lg">Submit</button>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <script type="text/javascript" src="./assets/js/script.js"></script>

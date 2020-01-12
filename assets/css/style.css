@@ -21,12 +21,12 @@
     display: block;
 }
 
-#quizContentHeader {
-    display: none;
-}
-
 #quizIntro {
     display: block;
+}
+
+#quizContentHeader {
+    display: none;
 }
 
 #quizContent {
@@ -39,16 +39,32 @@
     display: none;
 }
 
-#ansewerResult {
+#quizEnd {
+    display: none;
+}
+
+#answerResult {
     display: none;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: x-large;
+    /*font-size: x-large;*/
     font-style: italic;
     padding: 0.5em;
 }
 
 #nextBtn {
     background-color: blueviolet;
+}
+
+#initialslabel {
+    font-size: 1.5em;
+}
+
+#userScore {
+    font-size: 2em;
+}
+
+#userInitials {
+    text-transform: uppercase;
 }
 
 /* extra small screen */

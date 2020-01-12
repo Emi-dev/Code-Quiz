@@ -13,21 +13,26 @@ var questionTitle = document.querySelector("#questionTitle");
 // element to display the answer choices (buttons)
 var answerChoices = document.querySelector("#answerChoices");
 // division displaying whether the user answer is correct or wrong.
-var ansewerResult = document.querySelector("#ansewerResult");
+var answerResult = document.querySelector("#answerResult");
+// element to display the answer result
+var resultText = document.querySelector("#resultText");
 // element (button) to move to the next question
 var nextBtn = document.querySelector("#nextBtn");
+// division displaying at the end: the user's final score and initial input
+var quizEnd = document.querySelector("#quizEnd");
+// element to display the user score 
+var userScore = document.querySelector("#userScore");
+// user's initials input element
+var userInitials = document.querySelector("#userInitials");
+// user's initials submit button element
+var submitBtn = document.querySelector("#submitBtn");
 
 // question index counter
 var currentIndex;
-// the user's wrong answer counter
-var wrongCount;
 // time left
 var timeLeft;
 // variable to contain the ID value returned by setInterval()
 var timeInterval;
-
-// initialize the quizHeader (intro)
-quizHeader.textContent = "Coding Quiz Challenge!";
 
 // questions list
 var questions = [
@@ -81,57 +86,59 @@ answerChoices.addEventListener("click", event => {
     if (choiceEl.matches("button")){
         // variable to store the user's answer choice
         var userChoice = choiceEl.textContent;
-        // variable to contain the result message
-        var questionResult;
-        // variable to store the correct answer
-        var correctAnswer = questions[currentIndex].answer;
-
-        if (userChoice === correctAnswer) {
-            questionResult = "Correct!"
-            ansewerResult.setAttribute("style", "display: block; color: green;");
-        } else {
-            questionResult = "Wrong! The correct Answer is: " + correctAnswer;
-            ansewerResult.setAttribute("style", "display: block; color: red;");
-            wrongCount++;
-        }
-        // display the result in the <p> (first element child of anserResult division)
-        ansewerResult.firstElementChild.textContent = questionResult;
-        // answer choice buttons get disabled once the user chooses one
-        disableChoices();
-        // increment the question index
-        currentIndex++;
+        // evaluate the user's answer 
+        evaluateAnswer(userChoice);
+        // if the user reaches to the end of the quiz
+        if (currentIndex === questions.length - 1) {
+            endOfQuiz();
+        }  
     }
 });
 
 // when the "Next Question" button is clicked
 nextBtn.addEventListener("click", () => {
     // remove answer choices for the previsous question
-    resetChoices();
-    if (currentIndex < questions.length) {
+    resetQuestionChoice();
+    // increment the question index
+    currentIndex++;
+    if (currentIndex < questions.length && timeLeft > 0) {
         // create and render the new question
         remderQuestion(currentIndex);
         // create and render the answer choices for the new question
         renderChoices(currentIndex);
     } else {    // when the quiz ends
-        // stop the timer
-        clearInterval(timeInterval);
-        // calculate and show the score
-        // get the user initials
-        // store in locasStorage
+        showTheEndPage();
+    }
+});
+
+// when the "Submit" (the final score and the initials) button is clicked
+submitBtn.addEventListener("click", () => {
+    if (!userInitials.value) {
+        alert("Please enter your initials!");
+    } else {
+        var isHighScore = true;
+        var userOldScore = JSON.parse(localStorage.getItem("userHighScore"));
+        if (userOldScore) {
+            isHighScore = userOldScore.highScore < timeLeft;
+        }
+        // stores the new score only if it is highter than the old one (once that stored in localStorage)
+        if (isHighScore) {
+            var userNewScore = {"initials" : userInitials.value.toUpperCase(), "highScore" : timeLeft};
+            localStorage.setItem("userHighScore", JSON.stringify(userNewScore));
+        }
     }
 });
 
 // function that starts the code quiz
 function startQuiz() {
-    // set/reset the currentIndex and wrongCount to 0
+    // set/reset the currentIndex to 0
     currentIndex = 0;
-    wrongCount = 0;
     // disable the introduction division
     quizIntroDiv.setAttribute("style", "display: none;");
     // enable the quiz content division
     quizContentDiv.setAttribute("style", "display: block;");
 
-    resetChoices();
+    resetQuestionChoice();
     remderQuestion(currentIndex);  
     renderChoices(currentIndex);
     startTimer();
@@ -139,8 +146,8 @@ function startQuiz() {
 
 // function that renders a question of the given index
 function remderQuestion(index) {
-    // disable the ansewerResult division when a new question displayed
-    ansewerResult.setAttribute("style", "display: none;")
+    // disable the answerResult division when a new question displayed
+    answerResult.setAttribute("style", "display: none;");
     // assign/reassign the question's text content
     quizHeader.textContent = "Question " + (index + 1);
     questionTitle.textContent = questions[index].title;
@@ -158,16 +165,66 @@ function renderChoices(index) {
     });
 }
 
+// function that checks whether the user's answer(choice) is right or wrong
+function evaluateAnswer(choice) {
+    // variable to contain the result message
+    var questionResult;
+    // variable to store the correct answer
+    var correctAnswer = questions[currentIndex].answer;
+
+    if (choice === correctAnswer) {
+        questionResult = "Correct!"
+        answerResult.setAttribute("style", "display: block; color: green;");
+    } else {
+        questionResult = "Wrong! The correct Answer is: " + correctAnswer;
+        answerResult.setAttribute("style", "display: block; color: red;");
+        // the user loses 15 seconds from time left when answering wrong
+        if (timeLeft >= 15) {
+            timeLeft -= 15;
+        } else {
+            timeLeft = 0;
+            clearInterval(timeInterval);
+        }
+    }
+    // display the result in the <p> (first element child of anserResult division)
+    resultText.textContent = questionResult;
+    // answer choice buttons get disabled once the user chooses one
+    disableChoices();
+}
+
+// function to disable the answer choices (buttons)
 function disableChoices() {  
     var childrenArray = Array.from(answerChoices.children);
     childrenArray.forEach(element => {element.disabled = true;});
 }
 
 // removes all children (buttons of answer choices) from answerChoices division
-function resetChoices() {
+function resetQuestionChoice() {
     while (answerChoices.firstChild) {
         answerChoices.removeChild(answerChoices.firstChild);
     }
+}
+
+// function to do the end of the game process
+function endOfQuiz() {
+    clearInterval(timeInterval);
+    disableChoices();
+    answerResult.setAttribute("style", "display: block");
+    nextBtn.textContent = "See Your Score";
+}
+
+// function that show the page to display at the end of the quiz
+function showTheEndPage() {
+    // empty the header and disable the quiz content and answer result divisions
+    quizHeader.textContent = "";
+    quizContentDiv.setAttribute("style", "display: none;");
+    answerResult.setAttribute("style", "display: none");
+    // enable the quizEnd division to show the final score and get the user initials
+    quizEnd.setAttribute("style", "display: block");
+    // calculate and show the score
+    userScore.textContent = timeLeft;
+    // get the user initials
+    // store in locasStorage
 }
 
 // quiz timer function
@@ -179,7 +236,7 @@ function startTimer() {
         timeLeft--;
         timeLeftSpan.textContent = timeLeft;
         if (timeLeft === 0) {
-            clearInterval(timeInterval);
+            endOfQuiz();
         }
     }, 1000);
 }
