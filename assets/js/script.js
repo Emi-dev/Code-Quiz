@@ -224,9 +224,8 @@ function storeScore() {
     // highScores is an array of objects. Each object in hiScores has initals & score properties.
     var storedScores = JSON.parse(localStorage.getItem("highScores"));
     if (storedScores) {
+        // get the current user's index in the stored (old) score data (highScores)
         currentUserIndex = storedScores.findIndex(x => x.initials === currentUserInitials);
-        console.log("current user index: " + currentUserIndex);
-
         // if the the user's score data is already in localStorage and he/she got his/her highest score (higher than the one stored)
         if (currentUserIndex != -1) {
             if (timeLeft > storedScores[currentUserIndex].score) {

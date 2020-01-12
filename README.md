@@ -19,6 +19,7 @@ The user is able to view the highestscore by clicking on the "Highestscore" link
 
 ![Code Quiz Intro Page](assets/images/code-quiz-intro.png)
 ![Code Quiz Question Page](assets/images/code-quiz-question.png)
+![Code Quiz Highscore Page](assets/images/code-quiz-highscore.png)
 
 ### Link
 [Click here to Take Javascript Code Quiz](https://emi-dev.github.io/Code-Quiz/)
