@@ -113,19 +113,11 @@ nextBtn.addEventListener("click", () => {
 
 // when the "Submit" (the final score and the initials) button is clicked
 submitBtn.addEventListener("click", () => {
-    if (!userInitials.value) {
+    if (!userInitials.value) { // if the initials have not been entered
         alert("Please enter your initials!");
     } else {
-        var isHighScore = true;
-        var userOldScore = JSON.parse(localStorage.getItem("userHighScore"));
-        if (userOldScore) {
-            isHighScore = userOldScore.highScore < timeLeft;
-        }
-        // stores the new score only if it is highter than the old one (once that stored in localStorage)
-        if (isHighScore) {
-            var userNewScore = {"initials" : userInitials.value.toUpperCase(), "highScore" : timeLeft};
-            localStorage.setItem("userHighScore", JSON.stringify(userNewScore));
-        }
+        // store the score in localStorage
+        storeScore();
     }
 });
 
@@ -223,8 +215,33 @@ function showTheEndPage() {
     quizEnd.setAttribute("style", "display: block");
     // calculate and show the score
     userScore.textContent = timeLeft;
-    // get the user initials
-    // store in locasStorage
+}
+
+// function to store the score in localStorage
+function storeScore() {
+    var currentUserInitials = userInitials.value.toUpperCase();
+    // get the stores highscores array of objects from localStorage
+    // highScores is an array of objects. Each object in hiScores has initals & score properties.
+    var storedScores = JSON.parse(localStorage.getItem("highScores"));
+    if (storedScores) {
+        currentUserIndex = storedScores.findIndex(x => x.initials === currentUserInitials);
+        console.log("current user index: " + currentUserIndex);
+
+        // if the the user's score data is already in localStorage and he/she got his/her highest score (higher than the one stored)
+        if (currentUserIndex != -1) {
+            if (timeLeft > storedScores[currentUserIndex].score) {
+            // update the stored score with the new score (timeLeft)
+            storedScores[currentUserIndex].score = timeLeft;
+            }
+        } else { // if the user's score data is not in localStorage (but other users' data already exists)
+            storedScores.push({initials: currentUserInitials, score: timeLeft});
+        }
+    } else { // if there is no score data exists (very first time or after localStorage is cleared)
+        storedScores = [];
+        storedScores.push({initials: currentUserInitials, score: timeLeft});
+    }
+    // re-store the storedScores array with updated score of the user
+    localStorage.setItem("highScores", JSON.stringify(storedScores));
 }
 
 // quiz timer function

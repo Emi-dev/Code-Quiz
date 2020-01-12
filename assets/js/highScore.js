@@ -1,6 +1,5 @@
 // element to show the highscore on hiscore page
 var highScoreArea = document.querySelector("#highScoreArea");
-console.log(highScoreArea);
 
 showHighScore();
 
