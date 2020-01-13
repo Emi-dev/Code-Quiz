@@ -16,16 +16,23 @@ clearScoresBtn.addEventListener("click", () => {
 
 // function to create and display the highscore table
 function showHighScore() {
+    // get the stored data (an array of objects that contains "initials" and "score" properties)
     var storedScores = JSON.parse(localStorage.getItem("highScores"));
     if (storedScores) {
         storedScores.forEach(user => {
+            // create table row and table datas
             var scoreRow = document.createElement("tr");
             var initialData = document.createElement("td");
             var scoreData = document.createElement("td");
+            // assign the user initials to the textContent of table data
             initialData.textContent = user.initials;
+            // assign the user score to the textContent of table data
             scoreData.textContent = user.score;
+            // append the table data (initials) to the table row
             scoreRow.appendChild(initialData);
+            // append the table data (score) to the table row
             scoreRow.appendChild(scoreData);
+            // append the row to the table
             scoreTable.appendChild(scoreRow);
         });
     } else {
