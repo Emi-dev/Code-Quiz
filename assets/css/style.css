@@ -1,3 +1,7 @@
+body {
+    background-color: #d6e0eb;
+}
+
 .nav-item {
     padding: 20px;
 }
@@ -31,7 +35,7 @@
 
 #quizContent {
     display: none;
-    border-bottom: 2px solid #dddddd;
+    border-bottom: 2px solid #666666;
     padding: 0.5em;
 }
 
