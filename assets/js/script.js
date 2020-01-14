@@ -168,18 +168,19 @@ function evaluateAnswer(choice) {
     // variable to store the correct answer
     var correctAnswer = questions[currentIndex].answer;
 
-    if (choice === correctAnswer) {
+    if (choice === correctAnswer) { // when the user's answer is correct
         questionResult = "Correct!";
         answerResult.setAttribute("style", "display: block; color: green;");
-    } else {
+    } else {    // when the user's answer is wrong
         questionResult = "Wrong! The correct Answer is: " + correctAnswer;
         // the user loses 15 seconds from time left when answering wrong
         if (timeLeft >= 15) {
             timeLeft -= 15;
+            showTimeLeft();
             answerResult.setAttribute("style", "display: block; color: red;");
-        } else {
+        } else { // if the user has less than 15 seconds left when he/she gets a wrong answer
             timeLeft = 0;
-            timeLeftSpan.textContent = timeLeft;
+            showTimeLeft();
             questionResult += " Time is up!"
             endOfQuiz();
         }
@@ -254,10 +255,14 @@ function startTimer() {
 
     timeInterval = setInterval(() => {
         timeLeft--;
-        timeLeftSpan.textContent = timeLeft;
+        showTimeLeft();
         if (timeLeft === 0) {
             resultText.textContent = "Time is up!"
             endOfQuiz();
         }
     }, 1000);
+}
+
+function showTimeLeft() {
+    timeLeftSpan.textContent = timeLeft;
 }
