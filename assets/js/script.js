@@ -84,6 +84,8 @@ startBtn.addEventListener("click", () => {
 answerChoices.addEventListener("click", event => {
     var choiceEl = event.target;
     if (choiceEl.matches("button")){
+        // once the user picks the answer, disable the choices (buttons)
+        disableChoices();
         // variable to store the user's answer choice
         var userChoice = choiceEl.textContent;
         // evaluate the user's answer 
@@ -167,23 +169,23 @@ function evaluateAnswer(choice) {
     var correctAnswer = questions[currentIndex].answer;
 
     if (choice === correctAnswer) {
-        questionResult = "Correct!"
+        questionResult = "Correct!";
         answerResult.setAttribute("style", "display: block; color: green;");
     } else {
         questionResult = "Wrong! The correct Answer is: " + correctAnswer;
-        answerResult.setAttribute("style", "display: block; color: red;");
         // the user loses 15 seconds from time left when answering wrong
         if (timeLeft >= 15) {
             timeLeft -= 15;
+            answerResult.setAttribute("style", "display: block; color: red;");
         } else {
             timeLeft = 0;
-            clearInterval(timeInterval);
+            timeLeftSpan.textContent = timeLeft;
+            questionResult += " Time is up!"
+            endOfQuiz();
         }
     }
     // display the result in the <p> (first element child of anserResult division)
     resultText.textContent = questionResult;
-    // answer choice buttons get disabled once the user chooses one
-    disableChoices();
 }
 
 // function to disable the answer choices (buttons)
@@ -203,8 +205,8 @@ function resetQuestionChoice() {
 function endOfQuiz() {
     clearInterval(timeInterval);
     disableChoices();
-    answerResult.setAttribute("style", "display: block");
     nextBtn.textContent = "See Your Score";
+    answerResult.setAttribute("style", "display: block");
 }
 
 // function that show the page to display at the end of the quiz
@@ -254,6 +256,7 @@ function startTimer() {
         timeLeft--;
         timeLeftSpan.textContent = timeLeft;
         if (timeLeft === 0) {
+            resultText.textContent = "Time is up!"
             endOfQuiz();
         }
     }, 1000);

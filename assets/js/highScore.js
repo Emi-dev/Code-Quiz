@@ -36,7 +36,7 @@ function showHighScore() {
             scoreTable.appendChild(scoreRow);
         });
     } else {
-        highScoreArea.textContent = "There is no highscore data";
+        showNoScoreMsg();
     }
 }
 
@@ -45,4 +45,9 @@ function clearTable() {
     while (scoreTable.firstChild) {
         scoreTable.removeChild(scoreTable.firstChild);
     }
+    showNoScoreMsg();
+}
+
+function showNoScoreMsg() {
+    highScoreArea.textContent = "There is no highscore data";
 }
